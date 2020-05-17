@@ -4,12 +4,12 @@
 #Description    :
 #Requirement	:                                                                                 
 #Args           :                                                                                           
-#Author       	:Arif KIZILTEPE                                                
-#Email         	:kzltpsgm@gmail.com                                          
+#Author       	: Arif KIZILTEPE                                                
+#Email         	: kzltpsgm@gmail.com                                          
 ###################################################################
 
 #Read Conf...
-source /home/apachekhc.conf
+source apachekhc.conf
 
 
 #Coler variables
@@ -44,7 +44,6 @@ done
 
 }
 
-# display back 3 numbers - punched by user. 
 
 proc
 
