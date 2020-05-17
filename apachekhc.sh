@@ -1,15 +1,15 @@
 #!/bin/bash
 ###################################################################
 #Script Name	: apachekhc.sh                                                                                             
-#Description    :
+#Description    : 
 #Requirement	:                                                                                 
 #Args           :                                                                                           
-#Author       	:Arif KIZILTEPE                                                
-#Email         	:kzltpsgm@gmail.com                                          
+#Author       	: Arif KIZILTEPE                                                
+#Email         	: kzltpsgm@gmail.com                                          
 ###################################################################
 
 #Read Conf...
-source /home/apachekhc.conf
+source apachekhc.conf
 
 
 #Coler variables
@@ -19,9 +19,12 @@ NC='\033[0m' # No Color
 
 
 proc(){
-printf "${RED}1${NC}      Broker List Detail\n"
-printf "${RED}2${NC}      Topic List Detail\n"
-printf "${RED}0${NC}      Exit\n"
+printf "  ${RED}1${NC}      Broker List Detail\n"
+printf "  ${RED}2${NC}      Topic List\n"
+printf "  ${RED}3${NC}      Topic Detail\n"
+printf "  ${RED}4${NC}      Consumer Group List\n"
+printf "  ${RED}5${NC}      Consumer Group Detail\n"
+printf "  ${RED}0${NC}      Exit\n"
 read -p "Choose action :" pn
 }
 
@@ -38,13 +41,12 @@ do
 		exit
 	else
 		echo "Incorrect choice. Try again."
-		read -p "Do you want to continue (Y/N) :" yn
+		read -p "Do you want to continue (Y/N) : " yn
 	fi
 done
 
 }
 
-# display back 3 numbers - punched by user. 
 
 proc
 
@@ -58,18 +60,49 @@ do
 	#Broker List Detail
 	elif [ "$pn" = "1" ]
 	then
-		BLIST=$(${KHOME}/bin/zookeeper-shell.sh ${ZHOST}:${ZPORT} ls /brokers/ids | tail -1 | sed $'s/[[:punct:]\t]//g')
+		BLIST=$(${KHOME}/bin/zookeeper-shell.sh ${HOST}:${ZPORT} ls /brokers/ids | tail -1 | sed $'s/[[:punct:]\t]//g')
 		for i in $BLIST
 		do
 			echo "Broker ID = ${i}"
-			${KHOME}/bin/zookeeper-shell.sh ${ZHOST}:${ZPORT}  get /brokers/ids/${i} | grep host
+			${KHOME}/bin/zookeeper-shell.sh ${HOST}:${ZPORT}  get /brokers/ids/${i} | grep host
 			printf "\n"
 		done
 		printf "\n \n \n"
 		ynques
+	#Topic List 
 	elif [ "$pn" = "2" ]
 	then
-		${KHOME}/bin/zookeeper-shell.sh ${ZHOST}:${ZPORT} ls /brokers/topics| awk 'END{print}'
+		${KHOME}/bin/zookeeper-shell.sh ${HOST}:${ZPORT} ls /brokers/topics| awk 'END{print}'
+		printf "\n \n \n"
+		ynques
+	#Topic List Detail
+	elif [ "$pn" = "3" ]
+	then
+		TLIST=$(${KHOME}/bin/zookeeper-shell.sh ${HOST}:${ZPORT} ls /brokers/topics| awk 'END{print}'| sed $'s/[[:punct:]\t]//g' | sed "s/consumeroffsets//")
+		for i in $TLIST
+		do
+			echo "Topic Name = ${i}"
+			${KHOME}/bin/kafka-topics.sh --describe --topic ${i} --zookeeper ${HOST}:${ZPORT}
+			printf "\n"
+		done
+		printf "\n \n \n"
+		ynques
+	#Consumer Group List
+	elif [ "$pn" = "4" ]
+	then
+		CLIST=$(${KHOME}/bin/kafka-consumer-groups.sh --list --bootstrap-server ${HOST}:${KPORT} |  head -n -1 )
+		echo $CLIST
+		ynques
+	#Consumer Group Detail
+	elif [ "$pn" = "5" ]
+	then
+		CLIST=$(${KHOME}/bin/kafka-consumer-groups.sh --list --bootstrap-server ${HOST}:${KPORT} |  head -n -1 )
+		for i in $CLIST
+		do
+			echo "Consumer Group = ${i}"
+			${KHOME}/bin/kafka-consumer-groups.sh --describe --group ${i} --bootstrap-server ${HOST}:${KPORT}
+			printf "\n"
+		done
 		printf "\n \n \n"
 		ynques
 	else
