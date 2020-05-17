@@ -2,7 +2,7 @@
 
 ## Apache Kafka Health Checker
 
-![alt text](https://raw.githubusercontent.com/kzltp/Apache-Kafka-Health-Checker/master/images.png)
+![alt text](https://raw.githubusercontent.com/kzltp/Apache-Kafka-Health-Checker/master/welcome.png)
 
 Kafka health checker is an application that facilitates the basic control of the kafka ecosystem running on linux cli.
 
