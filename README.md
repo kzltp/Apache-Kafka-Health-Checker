@@ -1,18 +1,27 @@
-# Apache-Kafka-Health-Checker
+# Apache Kafka Health Checker
+
+![alt text](https://raw.githubusercontent.com/kzltp/Apache-Kafka-Health-Checker/master/images.png)
 
 
+## Installation
 
+Download files 
 
-Installation
-1-) Download files
-git clone --config http.sslVerify=false  https://github.com/kzltp/Apache-Kafka-Health-Checker.git
+```bash
+git clone --config http.sslVerify=false https://github.com/kzltp/Apache-Kafka-Health-Checker.git
+```
 
-2-) Configure apachekhc.conf file
+Configure apachekhc.conf file
+
+```bash
 KHOME=<Kafka home path>
 HOST=<zookeeper ip or hostname>
 ZPORT=<zookeeper port>
 KPORT=<kafka port>
+```
 
-3-) Shell script give execute permission
+Shell script give execute permission
+
+```bash
 chmod +x apachekhc.sh
-
+```
