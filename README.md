@@ -11,7 +11,7 @@ Download files
 git clone --config http.sslVerify=false https://github.com/kzltp/Apache-Kafka-Health-Checker.git
 ```
 
-Configure apachekhc.conf file
+Edit apachekhc.conf file
 
 ```bash
 KHOME=<Kafka home path>
