@@ -90,13 +90,13 @@ do
 	#Consumer Group List
 	elif [ "$pn" = "4" ]
 	then
-		CLIST=$(${KHOME}/bin/kafka-consumer-groups.sh --list --bootstrap-server ${HOST}:${KPORT} |  head -n -1 )
+		CLIST=$(${KHOME}/bin/kafka-consumer-groups.sh --list --bootstrap-server ${HOST}:${KPORT} )
 		echo $CLIST
 		ynques
 	#Consumer Group Detail
 	elif [ "$pn" = "5" ]
 	then
-		CLIST=$(${KHOME}/bin/kafka-consumer-groups.sh --list --bootstrap-server ${HOST}:${KPORT} |  head -n -1 )
+		CLIST=$(${KHOME}/bin/kafka-consumer-groups.sh --list --bootstrap-server ${HOST}:${KPORT})
 		for i in $CLIST
 		do
 			echo "Consumer Group = ${i}"
