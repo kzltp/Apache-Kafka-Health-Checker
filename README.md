@@ -28,4 +28,5 @@ Shell script give execute permission
 ```bash
 chmod +x apachekhc.sh
 ```
-
+## Release Note
+#21.05.2020 --> Message count information function added.
