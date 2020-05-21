@@ -1,12 +1,12 @@
 #!/bin/bash
-###################################################################
-#Script Name	: apachekhc.sh                                                                                             
-#Description    : 
-#Requirement	:                                                                                 
-#Args           :                                                                                           
-#Author       	: Arif KIZILTEPE                                                
-#Email         	: kzltpsgm@gmail.com                                          
-###################################################################
+echo -e "\033[0;32m###################################################################"
+echo "#Script Name	    : apachekhc.sh												"                                                                                                                               
+echo "#Description      : 		"                                         
+echo "#Requirement	    :   "                                                                                                                              
+echo "#Args             :   "                                                                                                                                     
+echo "#Author       	: Arif KIZILTEPE  "                                                                            
+echo "#Email         	: kzltpsgm@gmail.com   "                                                                 
+echo -e "###################################################################"
 
 #Read Conf...
 source apachekhc.conf
@@ -19,12 +19,13 @@ NC='\033[0m' # No Color
 
 
 proc(){
-printf "  ${RED}1${NC}      Broker List Detail\n"
-printf "  ${RED}2${NC}      Topic List\n"
-printf "  ${RED}3${NC}      Topic Detail\n"
-printf "  ${RED}4${NC}      Consumer Group List\n"
-printf "  ${RED}5${NC}      Consumer Group Detail\n"
-printf "  ${RED}0${NC}      Exit\n"
+printf "  ${RED}(1)${NC}      Broker List Detail\n"
+printf "  ${RED}(2)${NC}      Topic List\n"
+printf "  ${RED}(3)${NC}      Topic Detail\n"
+printf "  ${RED}(4)${NC}      Consumer Group List\n"
+printf "  ${RED}(5)${NC}      Consumer Group Detail\n"
+printf "  ${RED}(6)${NC}      Message Detail\n"
+printf "  ${RED}(0)${NC}      Exit\n"
 read -p "Choose action :" pn
 }
 
@@ -105,6 +106,25 @@ do
 		done
 		printf "\n \n \n"
 		ynques
+	#Message Detail
+	elif [ "$pn" = "6" ]
+	then
+		CLIST=$(${KHOME}/bin/kafka-consumer-groups.sh --list --bootstrap-server ${HOST}:${KPORT})
+		for i in $CLIST
+		do
+			echo "Consumer Group = ${i}"
+			ALLMESS=$(${KHOME}/bin/kafka-consumer-groups.sh --describe --group ${i} --bootstrap-server ${HOST}:${KPORT} | awk  '{sum += $5} END {print sum}' | grep -v " has no active members")
+			READEDMESS=$(${KHOME}/bin/kafka-consumer-groups.sh --describe --group ${i} --bootstrap-server ${HOST}:${KPORT} | awk  '{sum += $4} END {print sum}')
+			UNREADMESS=$(${KHOME}/bin/kafka-consumer-groups.sh --describe --group ${i} --bootstrap-server ${HOST}:${KPORT} | awk  '{sum += $6} END {print sum}')
+			
+			echo "All Messages : ${ALLMESS}"
+			echo "Read Messages : ${READEDMESS}"
+			echo "Unread Messages : ${UNREADMESS}"
+			printf "\n"
+		done
+		printf "\n \n \n"
+		ynques
+	
 	else
 		echo "Incorrect choice. Try again."
 		ynques
